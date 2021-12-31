@@ -10,8 +10,11 @@ main = Blueprint('main', __name__)
 def index():
     questions = Question.query.filter(Question.answer != None).all()
 
+    favourites = ["London", "Quebec"]
+
     context = {
-        'questions' : questions
+        'questions' : questions,
+        'favourites' : favourites
     }
 
     return render_template('home.html', **context)
