@@ -36,7 +36,8 @@
             <li><a href="{{ url_for('auth.register') }}">Register</a></li>
             {% endif %}
             {% if current_user.is_authenticated %}
-            <li><a href="{{ url_for('main.ask') }}">Ask Question</a></li>
+            <li><a href="{{ url_for('main.weather') }}">Current Weather</a></li>
+            <li><a href="{{ url_for('main.add_favourite') }}">Add</a></li>
             {% endif %}
             {% if current_user.is_authenticated and current_user.expert %}
             <li><a href="{{ url_for('main.unanswered') }}">Unanswered Questions</a></li>
@@ -48,7 +49,7 @@
 
             {% if current_user.is_authenticated and favourites %}
             <li class="dropdown">
-              <a class="dropdown-toggle" data-toggle="dropdown" href="#">Favourites
+              <a class="dropdown-toggle" data-toggle="dropdown" href="#">Forecast
               <span class="caret"></span></a>
               <ul class="dropdown-menu">
                 {% for favourite in favourites %}

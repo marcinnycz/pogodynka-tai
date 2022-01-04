@@ -1,6 +1,9 @@
 from flask import Blueprint, render_template, request, redirect, url_for
 from flask_login import current_user, login_required
 
+import requests
+import json
+
 from flask_qa.extensions import db
 from flask_qa.models import Question, User
 
@@ -19,31 +22,39 @@ def index():
 
     return render_template('home.html', **context)
 
-@main.route('/ask', methods=['GET', 'POST'])
+@main.route('/weather', methods=['GET'])
 @login_required
-def ask():
-    if request.method == 'POST':
-        question = request.form['question']
-        expert = request.form['expert']
+def weather():
 
-        question = Question(
-            question=question, 
-            expert_id=expert, 
-            asked_by_id=current_user.id
-        )
+    #Get favourite places data
+    fav1 = {
+        'lat': '10',
+        'lon': '10'
+    }
+    fav2 = {
+        'lat': '10',
+        'lon': '10'
+    }
+    favourites = [(fav1, 'Londyn'), (fav2, 'Quebec')]
 
-        db.session.add(question)
-        db.session.commit()
+    #Initialize list
+    weather = []
 
-        return redirect(url_for('main.index'))
+    #Get data from api
+    for f in favourites:
+        #weather.append(f)
+        payload = {'lat': f[0]["lat"], 'lon': f[0]["lon"], 'appid': 'b7f46f673b72edc826d89c62775cb19b', 'units': 'metric'}
+        dataJSON = requests.get('https://api.openweathermap.org/data/2.5/weather', params=payload).content
+        data = json.loads(dataJSON)
+        weather.append((data, f[1]))
 
-    experts = User.query.filter_by(expert=True).all()
-
+    #Prepare data for HTML
     context = {
-        'experts' : experts
+        'weather' : weather
     }
 
-    return render_template('ask.html', **context)
+    #Render
+    return render_template('currentWeather.html', **context)
 
 @main.route('/answer/<int:question_id>', methods=['GET', 'POST'])
 @login_required
@@ -118,3 +129,28 @@ def promote(user_id):
     db.session.commit()
 
     return redirect(url_for('main.users'))
+
+@main.route('/add_favourite', methods=['GET', 'POST'])
+@login_required
+def add_favourite():
+    if request.method == 'POST':
+        name = request.form['name']
+        lat = request.form['lat']
+        lat = request.form['lon']
+
+        # -------------------------------------------------------------------- TO DO -------------------------------------------------------
+
+        # #Create database entry
+        # favourite = Favourite(
+        #     name=name, 
+        #     lat=lat,
+        #     lon=lon
+        # )
+
+        # #Add to database
+        # db.session.add(favourite)
+        # db.session.commit()
+
+        return redirect(url_for('main.index'))
+
+    return render_template('addFavourite.html')    

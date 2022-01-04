@@ -1,0 +1,25 @@
+{% extends 'base.html' %}
+{% block title %}Current Weather{% endblock %}
+
+
+{% block content %}
+<div class="page-header">
+    <h1>Current weather</h1>
+</div>
+
+<div class="row">
+    <div class="col-lg-12">
+      <div class="list-group">
+        {% for w in weather %}
+          <a href="#" class="list-group-item">
+            <h4 class="list-group-item-heading">{{ w[1] }}</h4>
+            <p class="list-group-item-text">Description: {{ w[0]['weather'][0]['description'] }} </p>
+            <p class="list-group-item-text">Temperature: {{ w[0]['main']['temp'] }}</p>
+            <p class="list-group-item-text">Humidity: {{ w[0]['main']['humidity'] }}%</p>
+          </a>
+        {% endfor %}
+      </div>
+    </div><!-- /.col-lg-12 -->
+</div>
+
+{% endblock %}
