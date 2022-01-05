@@ -4,8 +4,6 @@ from flask_login import current_user, login_required
 from flask_qa.extensions import db
 from flask_qa.models import Question, User
 
-import requests
-
 main = Blueprint('main', __name__)
 
 @main.route('/')
@@ -21,8 +19,28 @@ def index():
 @main.route('/ask', methods=['GET', 'POST'])
 @login_required
 def ask():
-    #Testing API
-    return requests.get('https://api.openweathermap.org/data/2.5/weather?q=London,uk&mode=html&APPID=b7f46f673b72edc826d89c62775cb19b&units=metric').content
+    if request.method == 'POST':
+        question = request.form['question']
+        expert = request.form['expert']
+
+        question = Question(
+            question=question, 
+            expert_id=expert, 
+            asked_by_id=current_user.id
+        )
+
+        db.session.add(question)
+        db.session.commit()
+
+        return redirect(url_for('main.index'))
+
+    experts = User.query.filter_by(expert=True).all()
+
+    context = {
+        'experts' : experts
+    }
+
+    return render_template('ask.html', **context)
 
 @main.route('/answer/<int:question_id>', methods=['GET', 'POST'])
 @login_required
