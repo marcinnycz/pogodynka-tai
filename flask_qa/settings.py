@@ -1,4 +1,5 @@
 import os 
+import re
 
 uri = os.getenv("DATABASE_URL")  # or other relevant config var
 if uri.startswith("postgres://"):
