@@ -38,3 +38,10 @@ class Question(db.Model):
     answer = db.Column(db.Text)
     asked_by_id = db.Column(db.Integer, db.ForeignKey('user.id'))
     expert_id = db.Column(db.Integer, db.ForeignKey('user.id'))
+
+class Favorite(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    name = db.Column(db.Text)
+    latitude = db.Column(db.Float)
+    longitude = db.Column(db.Float)
+    user_id = db.Column(db.Integer, db.ForeignKey('user.id'))
