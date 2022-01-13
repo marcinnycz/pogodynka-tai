@@ -19,13 +19,13 @@
                   <div class="form-group">
                     <label for="inputLat" class="col-lg-2 control-label">Latitude</label>
                     <div class="col-lg-10">
-                      <input type="text" class="form-control" name="lat" id="inputLat" placeholder="lat">
+                      <input type="number" class="form-control" name="lat" id="inputLat" placeholder="lat">
                     </div>
                   </div>
                   <div class="form-group">
                     <label for="inputLon" class="col-lg-2 control-label">Longitude</label>
                     <div class="col-lg-10">
-                      <input type="text" class="form-control" name="lon" id="inputLon" placeholder="lon">
+                      <input type="number" class="form-control" name="lon" id="inputLon" placeholder="lon">
                     </div>
                   </div>
                   <div class="form-group">
@@ -33,8 +33,14 @@
                       <button type="submit" class="btn btn-primary">Add</button>
                     </div>
                   </div>
+
+                 <!-- {{ recaptcha }} --> 
+
+                  
                 </fieldset>
               </form>
             </div>
           </div>
+
+    <script src='https://www.google.com/recaptcha/api.js'></script>          
 {% endblock %}

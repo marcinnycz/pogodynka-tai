@@ -12,10 +12,10 @@
       <div class="list-group">
         {% for w in weather %}
           <a href="#" class="list-group-item">
-            <h4 class="list-group-item-heading">{{ w[1] }}</h4>
-            <p class="list-group-item-text">Description: {{ w[0]['weather'][0]['description'] }} </p>
-            <p class="list-group-item-text">Temperature: {{ w[0]['main']['temp'] }}</p>
-            <p class="list-group-item-text">Humidity: {{ w[0]['main']['humidity'] }}%</p>
+            <h4 class="list-group-item-heading">{{ w['name'] }}</h4>
+            <p class="list-group-item-text">Description: {{ w['description'] }} </p>
+            <p class="list-group-item-text">Temperature: {{ w['temperature'] }}</p>
+            <p class="list-group-item-text">Humidity: {{ w['humidity'] }}%</p>
           </a>
         {% endfor %}
       </div>

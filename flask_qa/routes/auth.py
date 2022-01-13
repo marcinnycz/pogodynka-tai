@@ -4,12 +4,13 @@ from werkzeug.security import check_password_hash
 
 from flask_qa.extensions import db
 from flask_qa.models import User
+from flask_qa import variables
 
 auth = Blueprint('auth', __name__)
 
 @auth.route('/register', methods=['GET', 'POST'])
 def register():
-    if request.method == 'POST':
+    if request.method == 'POST' and variables.recaptcha.verify():
         name = request.form['name']
         unhashed_password = request.form['password']
 

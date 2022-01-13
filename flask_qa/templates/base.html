@@ -39,9 +39,7 @@
             <li><a href="{{ url_for('main.weather') }}">Current Weather</a></li>
             <li><a href="{{ url_for('main.add_favourite') }}">Add</a></li>
             {% endif %}
-            {% if current_user.is_authenticated and current_user.expert %}
-            <li><a href="{{ url_for('main.unanswered') }}">Unanswered Questions</a></li>
-            {% endif %}
+
             {% if current_user.is_authenticated and current_user.admin %}
             <li><a href="{{ url_for('main.users') }}">User Setup</a></li>
             {% endif %}
@@ -53,7 +51,7 @@
               <span class="caret"></span></a>
               <ul class="dropdown-menu">
                 {% for favourite in favourites %}
-                <li><a href="#">{{ favourite }}</a></li>
+                <li><a href="{{ url_for('main.forecast', favorite_id=favourite.id) }}">{{ favourite.name }}</a></li>
                 {% endfor %}
               </ul>
             </li>
