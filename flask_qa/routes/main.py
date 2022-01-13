@@ -103,7 +103,7 @@ def weather():
 
 
 
-@main.route('/delete/<int:favorite_id>', methods=['GET', 'POST'])
+@main.route('/deleteFavorite/<int:favorite_id>', methods=['GET', 'POST'])
 @login_required
 def delete_favorite(favorite_id):
     
