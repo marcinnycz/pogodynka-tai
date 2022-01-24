@@ -16,6 +16,9 @@
                     <div class="col-lg-10">
                         {{ form.username }}
                         
+                        {% for error in form.username.errors %}
+                        <span class="badge badge-warning">{{ error }}</span>
+                      {% endfor %}
 
                     </div>
                   </div>

@@ -7,7 +7,7 @@ from flask_qa.models import User
 from flask_qa import variables
 
 from flask_wtf import FlaskForm, RecaptchaField
-from wtforms import StringField, SubmitField, validators, PasswordField
+from wtforms import StringField, SubmitField, validators, PasswordField, ValidationError
 
 auth = Blueprint('auth', __name__)
 
@@ -32,12 +32,20 @@ auth = Blueprint('auth', __name__)
 #     return render_template('register.html')
 
 
+
+
+
 class RegisterUserForm(FlaskForm):
     username = StringField('Enter Your Username:', [validators.DataRequired(), validators.Length(max=255), validators.Length(min=5)])
-    password = PasswordField('Enter Your Password:', [validators.DataRequired(), validators.Length(max=255), validators.Length(min=5),validators.DataRequired(), validators.EqualTo('confirm', message='Passwords must match'), validators.Regexp("^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$", message="Minimum eight characters, at least one uppercase letter, one lowercase letter, one number and one special character")])
+    password = PasswordField('Enter Your Password:', [validators.DataRequired(), validators.Length(max=255), validators.Length(min=5),validators.DataRequired(), validators.EqualTo('confirm', message='Passwords must match'), validators.Regexp("^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[#?!@$%^&*-]).{8,}$", message="Minimum eight characters, at least one uppercase letter, one lowercase letter, one number and one special character")])
+    #password = PasswordField('Enter Your Password:')
     confirm = PasswordField('Repeat Password')
     recaptcha = RecaptchaField()
     submit = SubmitField(label=('Submit'))
+
+    def validate_username(form, field):
+        if User.query.filter_by(name=field.data).first():
+         raise ValidationError('This username is already in use')
 
 
 
