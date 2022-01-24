@@ -33,7 +33,7 @@ def register():
         user = User(
             name=name, 
             unhashed_password=unhashed_password,
-            admin=True,  
+            admin=False,  
         )
 
         db.session.add(user)
