@@ -16,13 +16,6 @@ main = Blueprint('main', __name__)
 @main.route('/delete/<int:user_id>')
 @login_required
 def delete_user(user_id):
-    #question = Question.query.get_or_404(question_id)
-
-    #context = {
-    #    'question' : question
-    #}
-
-    #return render_template('question.html', **context)
     if not current_user or not current_user.admin:
         return redirect(url_for('main.index'))
 
@@ -100,9 +93,6 @@ def weather():
     #Render
     return render_template('currentWeather.html', **context)
 
-
-
-
 @main.route('/deleteFavorite/<int:favorite_id>', methods=['GET', 'POST'])
 @login_required
 def delete_favorite(favorite_id):
@@ -116,34 +106,25 @@ def delete_favorite(favorite_id):
 
     return redirect(url_for('main.index'))
 
-# main.route('/forecast/<int:favorite_id>', methods=['GET', 'POST'])
-# @login_required
-# def forecast(favorite_id):
-#     #fav = Favorite.query.get_or_404(favorite_id)
-#     #Favorite.query.delete(favorite_id)
-#     #db.session.commit()
-#     return favorite_id
+
 
 @main.route('/forecast/<int:favorite_id>')
+@login_required
 def forecast(favorite_id):
 
     #Database
     favourites = Favorite.query.filter_by(user_id=current_user.id).all()
     favourite = Favorite.query.get_or_404(favorite_id)
 
+    if favourite.user_id != current_user.id:
+        return redirect(url_for('main.index'))
+
     #Initialize list
     weatherList = []
-
-    
-
-
 
     payload = {'lat': favourite.latitude, 'lon': favourite.longitude, 'appid': 'b7f46f673b72edc826d89c62775cb19b', 'units': 'metric', 'exclude': 'current,minutely,hourly,alerts'}
     dataJSON = requests.get('https://api.openweathermap.org/data/2.5/onecall', params=payload).content
     data = json.loads(dataJSON)
-
-
-
 
     for i in range(7):
         weather={
@@ -183,29 +164,9 @@ def forecast(favorite_id):
     }
 
     return render_template('forecast.html', **context)
-    #return str(weatherList[0]['day'])
-
-
-# @main.route('/delete/<int:user_id>', methods=['GET', 'POST'])
-# @login_required
-# def delete_user(user_id):
-#     user = User.query.get_or_404(user_id)
-#     db.session.delete(user)
-#     db.session.commit()
-
-#     return redirect(url_for('main.index'))
-
-
 
 @main.route('/show/<int:favorite_id>')
 def show(favorite_id):
-    #question = Question.query.get_or_404(question_id)
-
-    #context = {
-    #    'question' : question
-    #}
-
-    #return render_template('question.html', **context)
     return str(favorite_id)
 
 @main.route('/unanswered')
