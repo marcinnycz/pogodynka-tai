@@ -1,0 +1,27 @@
+{% extends 'base.html' %}
+{% block title %}Current Weather{% endblock %}
+
+
+{% block content %}
+<div class="page-header">
+    <h1>{{ name }}</h1>
+</div>
+
+<div class="row">
+    <div class="col-lg-12">
+      <div class="list-group">
+        {% for w in weather %}
+          <a href="#" class="list-group-item">
+            <h4 class="list-group-item-heading">{{ w['day'] }}</h4>
+            <p class="list-group-item-text">Description:   {{ w['description'] }}</p>
+            <p class="list-group-item-text">Day Temperature: {{ w['dayTemperature'] }}°C</p>
+            <p class="list-group-item-text">Night Temperature: {{ w['nightTemperature'] }}°C</p>
+            <p class="list-group-item-text">Humidity: {{ w['humidity'] }}%</p>
+            <p class="list-group-item-text">Wind Speed: {{ w['windSpeed'] }}m/s</p>
+          </a>
+        {% endfor %}
+      </div>
+    </div><!-- /.col-lg-12 -->
+</div>
+
+{% endblock %}
