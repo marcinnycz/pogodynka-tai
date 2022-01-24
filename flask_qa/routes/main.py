@@ -9,7 +9,7 @@ import requests
 import json
 
 from flask_qa.extensions import db
-from flask_qa.models import Question, User, Favorite
+from flask_qa.models import User, Favorite
 
 main = Blueprint('main', __name__)
 
@@ -30,8 +30,6 @@ def delete_user(user_id):
     db.session.commit()
 
     return redirect(url_for('main.users'))
-    #return redirect(url_for('main.index'))
-    #return str(favorite_id)
 
 @main.route('/')
 def index():
@@ -89,7 +87,7 @@ def weather():
         'favourites' : favourites,
         'weather' : weatherList
     }
-    #return str(weatherList)
+
     #Render
     return render_template('currentWeather.html', **context)
 
@@ -98,6 +96,8 @@ def weather():
 def delete_favorite(favorite_id):
     
     fav = Favorite.query.get_or_404(favorite_id)
+    
+    #Redirect users other than the owner of the favourite
     if current_user.id != fav.user_id:
         return redirect(url_for('main.index'))
 
@@ -105,8 +105,6 @@ def delete_favorite(favorite_id):
     db.session.commit()
 
     return redirect(url_for('main.index'))
-
-
 
 @main.route('/forecast/<int:favorite_id>')
 @login_required
@@ -116,6 +114,7 @@ def forecast(favorite_id):
     favourites = Favorite.query.filter_by(user_id=current_user.id).all()
     favourite = Favorite.query.get_or_404(favorite_id)
 
+    #Redirect users other than the owner of the favourite
     if favourite.user_id != current_user.id:
         return redirect(url_for('main.index'))
 
@@ -165,27 +164,6 @@ def forecast(favorite_id):
 
     return render_template('forecast.html', **context)
 
-@main.route('/show/<int:favorite_id>')
-def show(favorite_id):
-    return str(favorite_id)
-
-@main.route('/unanswered')
-@login_required
-def unanswered():
-    if not current_user.expert:
-        return redirect(url_for('main.index'))
-
-    unanswered_questions = Question.query\
-        .filter_by(expert_id=current_user.id)\
-        .filter(Question.answer == None)\
-        .all()
-
-    context = {
-        'unanswered_questions' : unanswered_questions
-    }
-
-    return render_template('unanswered.html', **context)
-
 @main.route('/users')
 @login_required
 def users():
@@ -199,19 +177,6 @@ def users():
     }
 
     return render_template('users.html', **context)
-
-@main.route('/promote/<int:user_id>')
-@login_required
-def promote(user_id):
-    if not current_user.admin:
-        return redirect(url_for('main.index'))
-
-    user = User.query.get_or_404(user_id)
-
-    user.expert = True
-    db.session.commit()
-
-    return redirect(url_for('main.users'))
 
 @main.route('/add_favourite', methods=['GET', 'POST'])
 @login_required

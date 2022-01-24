@@ -11,34 +11,9 @@ from wtforms import StringField, SubmitField, validators, PasswordField, Validat
 
 auth = Blueprint('auth', __name__)
 
-# @auth.route('/register', methods=['GET', 'POST'])
-# def register():
-#     if request.method == 'POST' and variables.recaptcha.verify():
-#         name = request.form['name']
-#         unhashed_password = request.form['password']
-
-#         user = User(
-#             name=name, 
-#             unhashed_password=unhashed_password,
-#             admin=False,  
-#             expert=False
-#         )
-
-#         db.session.add(user)
-#         db.session.commit()
-
-#         return redirect(url_for('auth.login'))
-
-#     return render_template('register.html')
-
-
-
-
-
 class RegisterUserForm(FlaskForm):
     username = StringField('Enter Your Username:', [validators.DataRequired(), validators.Length(max=255), validators.Length(min=5)])
     password = PasswordField('Enter Your Password:', [validators.DataRequired(), validators.Length(max=255), validators.Length(min=5),validators.DataRequired(), validators.EqualTo('confirm', message='Passwords must match'), validators.Regexp("^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[#?!@$%^&*-]).{8,}$", message="Minimum eight characters, at least one uppercase letter, one lowercase letter, one number and one special character")])
-    #password = PasswordField('Enter Your Password:')
     confirm = PasswordField('Repeat Password')
     recaptcha = RecaptchaField()
     submit = SubmitField(label=('Submit'))
@@ -46,9 +21,6 @@ class RegisterUserForm(FlaskForm):
     def validate_username(form, field):
         if User.query.filter_by(name=field.data).first():
          raise ValidationError('This username is already in use')
-
-
-
 
 @auth.route('/register', methods=['GET', 'POST'])
 def register():
