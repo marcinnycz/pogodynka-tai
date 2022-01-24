@@ -13,6 +13,10 @@ python-dotenv = "*"
 gunicorn = "*"
 psycopg2 = "*"
 requests = "*"
+flask-recaptcha = "*"
+flask-wtf = "*"
+wtforms = "*"
+datetime = "*"
 
 [requires]
 python_version = "3.7"
