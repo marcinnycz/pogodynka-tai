@@ -34,7 +34,8 @@ auth = Blueprint('auth', __name__)
 
 class RegisterUserForm(FlaskForm):
     username = StringField('Enter Your Username:', [validators.DataRequired(), validators.Length(max=255), validators.Length(min=5)])
-    password = PasswordField('Enter Your Password:', [validators.DataRequired(), validators.Length(max=255), validators.Length(min=5)])
+    password = PasswordField('Enter Your Password:', [validators.DataRequired(), validators.Length(max=255), validators.Length(min=5),validators.DataRequired(), validators.EqualTo('confirm', message='Passwords must match'), validators.Regexp("^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$", message="Minimum eight characters, at least one uppercase letter, one lowercase letter, one number and one special character")])
+    confirm = PasswordField('Repeat Password')
     recaptcha = RecaptchaField()
     submit = SubmitField(label=('Submit'))
 
@@ -44,7 +45,7 @@ class RegisterUserForm(FlaskForm):
 @auth.route('/register', methods=['GET', 'POST'])
 def register():
 
-    form = RegisterUserForm()
+    form = RegisterUserForm(request.form)
     if form.validate_on_submit():
         name = form.username.data
         unhashed_password = form.password.data
