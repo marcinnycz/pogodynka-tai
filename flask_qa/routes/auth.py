@@ -34,7 +34,6 @@ def register():
             name=name, 
             unhashed_password=unhashed_password,
             admin=False,  
-            expert=False
         )
 
         db.session.add(user)
