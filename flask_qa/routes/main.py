@@ -1,3 +1,4 @@
+
 from flask_qa import variables
 
 from flask import Blueprint, render_template, request, redirect, url_for
@@ -66,7 +67,9 @@ def weather():
         }
 
         #weather.append(f)
-        payload = {'lat': f.latitude, 'lon': f.longitude, 'appid': 'b7f46f673b72edc826d89c62775cb19b', 'units': 'metric'}
+        
+        #payload = {'lat': f.latitude, 'lon': f.longitude, 'appid': 'b7f46f673b72edc826d89c62775cb19b', 'units': 'metric'}
+        payload = {'lat': f.latitude, 'lon': f.longitude, 'appid': variables.appid, 'units': 'metric'}
         dataJSON = requests.get('https://api.openweathermap.org/data/2.5/weather', params=payload).content
         data = json.loads(dataJSON)
 
@@ -96,7 +99,7 @@ def weather():
 def delete_favorite(favorite_id):
     
     fav = Favorite.query.get_or_404(favorite_id)
-    
+
     #Redirect users other than the owner of the favourite
     if current_user.id != fav.user_id:
         return redirect(url_for('main.index'))
@@ -121,7 +124,7 @@ def forecast(favorite_id):
     #Initialize list
     weatherList = []
 
-    payload = {'lat': favourite.latitude, 'lon': favourite.longitude, 'appid': 'b7f46f673b72edc826d89c62775cb19b', 'units': 'metric', 'exclude': 'current,minutely,hourly,alerts'}
+    payload = {'lat': favourite.latitude, 'lon': favourite.longitude, 'appid': variables.appid, 'units': 'metric', 'exclude': 'current,minutely,hourly,alerts'}
     dataJSON = requests.get('https://api.openweathermap.org/data/2.5/onecall', params=payload).content
     data = json.loads(dataJSON)
 

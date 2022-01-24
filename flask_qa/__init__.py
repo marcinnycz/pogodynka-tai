@@ -17,12 +17,20 @@ def create_app(config_file='settings.py'):
     app.config.from_pyfile(config_file)
 
     #Captcha
-    app.config['RECAPTCHA_SITE_KEY'] = '6LfZxwQeAAAAACTqQxzUtn1TivDQih5ercrfuH-7' # <-- Add your site key
-    app.config['RECAPTCHA_SECRET_KEY'] = '6LfZxwQeAAAAAODw2VBJ1zIxAtj8qWSCX3KFm8aX' # <-- Add your secret key
+    #app.config['RECAPTCHA_SITE_KEY'] = '6LfZxwQeAAAAACTqQxzUtn1TivDQih5ercrfuH-7' # <-- Add your site key
+    #app.config['RECAPTCHA_SECRET_KEY'] = '6LfZxwQeAAAAAODw2VBJ1zIxAtj8qWSCX3KFm8aX' # <-- Add your secret key
+
+
+    app.config['RECAPTCHA_SITE_KEY'] = variables.raceptcha_site_key # <-- Add your site key
+    app.config['RECAPTCHA_SECRET_KEY'] = variables.raceptcha_secret_key # <-- Add your secret key
+
+    #app.config['RECAPTCHA_USE_SSL']= False
+    #app.config['RECAPTCHA_PUBLIC_KEY']='6LfZxwQeAAAAACTqQxzUtn1TivDQih5ercrfuH-7'
+    #app.config['RECAPTCHA_PRIVATE_KEY']='6LfZxwQeAAAAAODw2VBJ1zIxAtj8qWSCX3KFm8aX'
 
     app.config['RECAPTCHA_USE_SSL']= False
-    app.config['RECAPTCHA_PUBLIC_KEY']='6LfZxwQeAAAAACTqQxzUtn1TivDQih5ercrfuH-7'
-    app.config['RECAPTCHA_PRIVATE_KEY']='6LfZxwQeAAAAAODw2VBJ1zIxAtj8qWSCX3KFm8aX'
+    app.config['RECAPTCHA_PUBLIC_KEY']=variables.raceptcha_site_key
+    app.config['RECAPTCHA_PRIVATE_KEY']=variables.raceptcha_secret_key
 
 
     #global recaptcha
