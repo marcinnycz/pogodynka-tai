@@ -119,6 +119,8 @@ Crete a new user.
 
 Methods: GET, POST
 
+Only for logged in users.
+
 Sign in to existing account.
 
 **Parameters**
@@ -131,6 +133,8 @@ Sign in to existing account.
 ### */logout*
 
 Methods: GET
+
+Only for logged in users.
 
 Sign out.
 
