@@ -9,6 +9,8 @@ application. The database is implemented using PostgreSQL. The appearance of the
 developed using CSS. The application uses the open API provided by the OpenWeatherApp service.
 The project is hosted on the Heroku platform.
 
+In order to run the project locally, use the Flask run command.
+
 In order to connect to the OpenWeather API a key generated on the site must be provided in the .env file.
 A ReCaptcha SITE_KEY and SECRET_KEY must be provided in the .env file for user registration purposes.
 
