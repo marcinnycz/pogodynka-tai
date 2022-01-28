@@ -1,4 +1,13 @@
 # pogodynka-tai
+Created software is a web application that allows the user to display the weather forecast for a selected 
+location using the API provided by the OpenWeatherMap service.
+The application enables the user to set up an account and track the current and expected 
+weather in the chosen - added to favorite - locations.
+
+The application is made in the Python programming language. The Flask framework is used to implement the web 
+application. The database is implemented using PostgreSQL. The appearance of the application is 
+developed using CSS. The application uses the open API provided by the OpenWeatherApp service.
+The project is hosted on the Heroku platform.
 
 In order to connect to the OpenWeather API a key generated on the site must be provided in the .env file.
 A ReCaptcha SITE_KEY and SECRET_KEY must be provided in the .env file for user registration purposes.
