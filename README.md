@@ -1,8 +1,32 @@
 # pogodynka-tai
 
+In order to connect to the OpenWeather API a key generated on the site must be provided in the .env file.
+A ReCaptcha SITE_KEY and SECRET_KEY must be provided in the .env file for user registration purposes.
 
 # Database
 
+Project requires a connection to a SQL database. URL and SECRET_KEY must be provided in the .env file.
+The project uses SQLAlchemy to handle database table creation. In order to initialize the database use the command:
+
+flask create_tables()
+
+Models:
+
+table Users - Stores information about users 
+	Type		Name					Notes
+    Integer		id (PRIMARY KEY)		- User ID
+    String(50)	name					- User name
+    String(255)	password				- User password
+    Boolean		admin 					- Is user an admin
+	
+table Favorites	- Stores information about favourite locations
+	Type		Name					Notes
+    Integer		id (PRIMARY KEY)		- Favourite ID
+    String()	name					- Favourite name
+    Float		latitude				- Location latitude
+    Float		longitude				- Location longitude
+    Integer		user_id (FOREIGN KEY)	- Foreign key to the table Users
+	
 # Endpoints
 
 ### */forecast/<int:favorite_id>*
